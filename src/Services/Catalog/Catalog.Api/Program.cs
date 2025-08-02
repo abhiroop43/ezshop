@@ -1,4 +1,3 @@
-using Catalog.Api.Products.CreateProduct;
 using DotNetEnv;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -11,6 +10,13 @@ builder.Services.AddMediatR(cfg =>
     cfg.LicenseKey = Env.GetString("MEDIATR_LICENSE_KEY");
     cfg.RegisterServicesFromAssembly(typeof(Program).Assembly);
 });
+
+builder
+    .Services.AddMarten(opts =>
+    {
+        opts.Connection(builder.Configuration.GetConnectionString("Database")!);
+    })
+    .UseLightweightSessions();
 
 builder.Services.AddCarter();
 
