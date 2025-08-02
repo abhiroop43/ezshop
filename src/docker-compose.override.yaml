@@ -14,9 +14,9 @@ services:
   catalogdb:
     container_name: catalogdb
     environment:
-      - POSTGRES_PASSWORD=Abcd@12345
       - POSTGRES_USER=postgres
-      - POSTGRES_DB=catalogdb
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=CatalogDb
     ports:
       - "5432:5432"
     restart: unless-stopped
