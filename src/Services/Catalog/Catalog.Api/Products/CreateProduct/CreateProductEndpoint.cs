@@ -12,7 +12,7 @@ public record CreateProductResponse(Guid Id);
 
 public class CreateProductEndpoint : ICarterModule
 {
-    public void AddRoutes(IEndpointRouteBuilder app)
+    public virtual void AddRoutes(IEndpointRouteBuilder app)
     {
         app.MapPost(
                 "/products",
