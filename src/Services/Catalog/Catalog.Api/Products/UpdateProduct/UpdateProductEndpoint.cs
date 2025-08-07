@@ -8,7 +8,7 @@ public record UpdateProductRequest(
     string ImageFile,
     decimal Price);
 
-public record UpdateProductResponse(Guid Id);
+public record UpdateProductResponse(bool IsSuccess);
 
 public class UpdateProductEndpoint : ICarterModule
 {
@@ -18,8 +18,8 @@ public class UpdateProductEndpoint : ICarterModule
             {
                 var command = request.Adapt<UpdateProductCommand>();
                 var result = await sender.Send(command);
-
-                return Results.Ok(new UpdateProductResponse(result.Id));
+                var response = result.Adapt<UpdateProductResponse>();
+                return Results.Ok(response);
             })
             .WithName("UpdateProduct")
             .Produces<UpdateProductResponse>()

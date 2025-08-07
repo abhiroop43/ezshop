@@ -8,7 +8,7 @@ public record UpdateProductCommand(
     string ImageFile,
     decimal Price) : ICommand<UpdateProductResult>;
 
-public record UpdateProductResult(Guid Id);
+public record UpdateProductResult(bool IsSuccess);
 
 internal class UpdateProductCommandHandler(IDocumentSession session, ILogger<UpdateProductCommandHandler> logger)
     : ICommandHandler<UpdateProductCommand, UpdateProductResult>
@@ -28,6 +28,6 @@ internal class UpdateProductCommandHandler(IDocumentSession session, ILogger<Upd
 
         await session.SaveChangesAsync(cancellationToken);
 
-        return new UpdateProductResult(existingProduct.Id);
+        return new UpdateProductResult(true);
     }
 }
