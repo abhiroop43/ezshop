@@ -14,16 +14,16 @@ public class CreateProductCommandValidator : AbstractValidator<CreateProductComm
 {
     public CreateProductCommandValidator()
     {
-        RuleFor(x => x.Name).NotEmpty().WithMessage("{PrpoertyName} is required");
-        RuleFor(x => x.Category).NotEmpty().WithMessage("{PrpoertyName} is required");
-        RuleFor(x => x.ImageFile).NotEmpty().WithMessage("{PrpoertyName} is required");
-        RuleFor(x => x.Price).GreaterThan(0).WithMessage("{PrpoertyName} must be greater than 0");
+        const string requiredErrorMessage = "{PropertyName} is required";
+        RuleFor(x => x.Name).NotEmpty().WithMessage(requiredErrorMessage);
+        RuleFor(x => x.Category).NotEmpty().WithMessage(requiredErrorMessage);
+        RuleFor(x => x.ImageFile).NotEmpty().WithMessage(requiredErrorMessage);
+        RuleFor(x => x.Price).GreaterThan(0).WithMessage("{PropertyName} must be greater than 0");
     }
 }
 
 internal class CreateProductCommandHandler(
-    IDocumentSession session,
-    IValidator<CreateProductCommand> validator
+    IDocumentSession session
 ) : ICommandHandler<CreateProductCommand, CreateProductResult>
 {
     public async Task<CreateProductResult> Handle(
@@ -31,13 +31,6 @@ internal class CreateProductCommandHandler(
         CancellationToken cancellationToken
     )
     {
-        var result = await validator.ValidateAsync(command, cancellationToken);
-
-        if (result.Errors.Count != 0)
-        {
-            throw new ValidationException(result.Errors);
-        }
-
         // create product entity from command object
         var product = new Product
         {
@@ -45,7 +38,7 @@ internal class CreateProductCommandHandler(
             Category = command.Category,
             Description = command.Description,
             ImageFile = command.ImageFile,
-            Price = command.Price,
+            Price = command.Price
         };
 
         // save to db
