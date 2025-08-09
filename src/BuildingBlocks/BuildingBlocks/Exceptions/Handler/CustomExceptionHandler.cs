@@ -1,12 +1,15 @@
 using FluentValidation;
 using Microsoft.AspNetCore.Diagnostics;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
 namespace BuildingBlocks.Exceptions.Handler;
 
-public class CustomExceptionHandler(ILogger<CustomExceptionHandler> logger) : IExceptionHandler
+public class CustomExceptionHandler(ILogger<CustomExceptionHandler> logger, IWebHostEnvironment environment)
+    : IExceptionHandler
 {
     public async ValueTask<bool> TryHandleAsync(HttpContext httpContext, Exception exception,
         CancellationToken cancellationToken)
@@ -16,7 +19,9 @@ public class CustomExceptionHandler(ILogger<CustomExceptionHandler> logger) : IE
         (string Detail, string Title, int StatusCode) detail = exception switch
         {
             InternalServerException => (
-                exception.Message,
+                environment.IsDevelopment()
+                    ? exception.Message
+                    : "An error has occurred. Please contact the Administrator.",
                 exception.GetType().Name,
                 httpContext.Response.StatusCode = StatusCodes.Status500InternalServerError
             ),
@@ -33,7 +38,9 @@ public class CustomExceptionHandler(ILogger<CustomExceptionHandler> logger) : IE
                     httpContext.Response.StatusCode = StatusCodes.Status404NotFound
                 ),
             _ => (
-                exception.Message,
+                environment.IsDevelopment()
+                    ? exception.Message
+                    : "An error has occurred. Please contact the Administrator.",
                 exception.GetType().Name,
                 httpContext.Response.StatusCode = StatusCodes.Status500InternalServerError
             )

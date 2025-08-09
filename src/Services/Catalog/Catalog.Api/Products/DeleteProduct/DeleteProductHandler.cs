@@ -12,7 +12,7 @@ public class DeleteProductCommandValidator : AbstractValidator<DeleteProductComm
     }
 }
 
-internal class DeleteProductCommandHandler(IDocumentSession session, ILogger<DeleteProductCommandHandler> logger)
+internal class DeleteProductCommandHandler(IDocumentSession session)
     : ICommandHandler<DeleteProductCommand, DeleteProductResult>
 {
     public async Task<DeleteProductResult> Handle(DeleteProductCommand command, CancellationToken cancellationToken)
@@ -20,10 +20,7 @@ internal class DeleteProductCommandHandler(IDocumentSession session, ILogger<Del
         var product = await session.LoadAsync<Product>(command.Id, cancellationToken);
 
         if (product is null)
-        {
-            logger.LogWarning("No {0} found with Id {1}", nameof(product), command.Id);
             throw new ProductNotFoundException(command.Id);
-        }
 
         session.Delete(product);
 
