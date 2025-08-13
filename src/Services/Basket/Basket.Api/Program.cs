@@ -17,9 +17,14 @@ builder.Services.AddMarten(opts =>
     opts.Schema.For<ShoppingCart>().Identity(x => x.UserId);
 }).UseLightweightSessions();
 
+builder.Services.AddScoped<IBasketRepository, BasketRepository>();
+
+builder.Services.AddExceptionHandler<CustomExceptionHandler>();
+
 var app = builder.Build();
 
 // configure the HTTP Request pipeline
 app.MapCarter();
+app.UseExceptionHandler(opts => { });
 
 await app.RunAsync();
