@@ -9,7 +9,6 @@
 
     <ItemGroup>
         <Folder Include="Dtos\"/>
-        <Folder Include="Exceptions\"/>
         <Folder Include="GrpcServices\"/>
         <Folder Include="Protos\"/>
     </ItemGroup>
@@ -26,6 +25,7 @@
 
     <ItemGroup>
         <PackageReference Include="Carter" Version="8.2.1"/>
+        <PackageReference Include="Marten" Version="8.7.0"/>
     </ItemGroup>
 
 </Project>
