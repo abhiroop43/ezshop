@@ -32,5 +32,6 @@
 volumes:
   postgres_catalog:
   postgres_basket:
+  discountdb_data:
 
 
