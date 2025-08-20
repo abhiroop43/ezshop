@@ -418,3 +418,5 @@ FodyWeavers.xsd
 *.msp
 
 .idea/
+/src/Services/Discount/Discount.Grpc/DiscountDb-shm
+/src/Services/Discount/Discount.Grpc/DiscountDb-wal
