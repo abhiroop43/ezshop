@@ -7,7 +7,4 @@ public interface IAggregate : IEntity
     void AddDomainEvent(IDomainEvent domainEvent);
 }
 
-public interface IAggregate<T> : IAggregate, IEntity<T>
-{
-
-}
+public interface IAggregate<T> : IAggregate, IEntity<T> { }
