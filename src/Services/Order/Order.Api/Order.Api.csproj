@@ -5,6 +5,9 @@
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
         <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+        <UserSecretsId>c4d53a49-86d9-4dab-af4a-83d75125a401</UserSecretsId>
+        <DockerfileContext>..\..\..</DockerfileContext>
+        <DockerComposeProjectPath>..\..\..\docker-compose.dcproj</DockerComposeProjectPath>
     </PropertyGroup>
 
     <ItemGroup>
@@ -14,8 +17,16 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\Order.Application\Order.Application.csproj"/>
-        <ProjectReference Include="..\Order.Infrastructure\Order.Infrastructure.csproj"/>
+      <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.22">
+        <PrivateAssets>all</PrivateAssets>
+        <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      </PackageReference>
+      <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.22.1" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\Order.Application\Order.Application.csproj" />
+        <ProjectReference Include="..\Order.Infrastructure\Order.Infrastructure.csproj" />
     </ItemGroup>
 
 </Project>

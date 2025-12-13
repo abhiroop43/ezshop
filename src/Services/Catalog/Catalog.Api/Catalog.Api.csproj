@@ -4,6 +4,7 @@
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
         <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+        <UserSecretsId>77ed238b-9697-43a3-90b2-6a854a3cae7c</UserSecretsId>
     </PropertyGroup>
     <ItemGroup>
         <Content Include="..\..\..\.dockerignore">
@@ -11,13 +12,13 @@
         </Content>
     </ItemGroup>
     <ItemGroup>
-        <PackageReference Include="AspNetCore.HealthChecks.NpgSql" Version="8.0.2"/>
-        <PackageReference Include="AspNetCore.HealthChecks.UI.Client" Version="8.0.1"/>
-        <PackageReference Include="Carter" Version="8.2.1"/>
-        <PackageReference Include="DotNetEnv" Version="3.1.1"/>
-        <PackageReference Include="Marten" Version="8.5.0"/>
+        <PackageReference Include="AspNetCore.HealthChecks.NpgSql" Version="8.0.2" />
+        <PackageReference Include="AspNetCore.HealthChecks.UI.Client" Version="8.0.1" />
+        <PackageReference Include="Carter" Version="8.2.1" />
+        <PackageReference Include="DotNetEnv" Version="3.1.1" />
+        <PackageReference Include="Marten" Version="8.5.0" />
     </ItemGroup>
     <ItemGroup>
-        <ProjectReference Include="../../../BuildingBlocks/BuildingBlocks/BuildingBlocks.csproj"/>
+        <ProjectReference Include="../../../BuildingBlocks/BuildingBlocks/BuildingBlocks.csproj" />
     </ItemGroup>
 </Project>
