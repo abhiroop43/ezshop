@@ -19,12 +19,13 @@ public class ValidationBehavior<TRequest, TResponse>(
 
         var failures = validationResults.Where(r => r.Errors.Count != 0).SelectMany(r => r.Errors).ToList();
 
-        if (failures.Count != 0)
+        if (failures.Count == 0)
         {
-            logger.LogWarning("Validation failed for {0}", nameof(request));
-            throw new ValidationException(failures);
+            return await next(cancellationToken);
         }
 
-        return await next(cancellationToken);
+        logger.LogWarning("Validation failed for {0}", nameof(request));
+        throw new ValidationException(failures);
+
     }
 }

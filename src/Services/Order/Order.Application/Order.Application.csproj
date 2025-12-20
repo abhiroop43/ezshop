@@ -17,6 +17,9 @@
     </ItemGroup>
 
     <ItemGroup>
+      <Folder Include="Exceptions\" />
+      <Folder Include="Orders\Commands\DeleteOrder\" />
+      <Folder Include="Orders\Commands\UpdateOrder\" />
       <Folder Include="Orders\EventHandlers\" />
       <Folder Include="Orders\Queries\" />
     </ItemGroup>
