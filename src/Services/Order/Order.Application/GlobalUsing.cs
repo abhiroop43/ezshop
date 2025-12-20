@@ -1,5 +1,9 @@
 ﻿global using BuildingBlocks.CQRS;
+global using MediatR;
+global using Microsoft.EntityFrameworkCore;
+global using Microsoft.Extensions.Logging;
 global using Order.Application.Data;
 global using Order.Application.Dtos;
 global using Order.Application.Exceptions;
+global using Order.Domain.Events;
 global using Order.Domain.ValueObjects;

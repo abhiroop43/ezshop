@@ -3,9 +3,9 @@
 public class Order : Aggregate<OrderId>
 {
     private readonly List<OrderItem> _orderItems = [];
-    private IReadOnlyList<OrderItem> OrderItems => _orderItems.AsReadOnly();
+    public IReadOnlyList<OrderItem> OrderItems => _orderItems.AsReadOnly();
 
-    public CustomerId CustomerId { get; private set; } = default!;
+    public CustomerId CustomerId { get; private set; } = null!;
     public OrderName OrderName { get; private set; } = null!;
     public Address ShippingAddress { get; private set; } = null!;
     public Address BillingAddress { get; private set; } = null!;
@@ -74,7 +74,7 @@ public class Order : Aggregate<OrderId>
             throw new DomainException("Price must be greater than zero.");
         }
 
-        var orderItem = new OrderItem(Id, productId, quantity, price) { Id = default! };
+        var orderItem = new OrderItem(Id, productId, quantity, price) { Id = null! };
         _orderItems.Add(orderItem);
     }
 
