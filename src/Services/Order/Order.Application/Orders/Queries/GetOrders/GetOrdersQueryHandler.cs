@@ -7,7 +7,7 @@ public class GetOrdersQueryHandler(IApplicationDbContext dbContext) : IQueryHand
 {
     public async Task<GetOrdersResult> Handle(GetOrdersQuery query, CancellationToken cancellationToken)
     {
-        var totalOrders = await dbContext.Orders.CountAsync(cancellationToken);
+        var totalOrders = await dbContext.Orders.LongCountAsync(cancellationToken);
         var orders = await dbContext.Orders
             .Include(o => o.OrderItems)
             .AsNoTracking()
