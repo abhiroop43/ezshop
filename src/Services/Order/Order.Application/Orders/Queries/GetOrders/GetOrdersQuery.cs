@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using BuildingBlocks.Pagination;
 
-namespace Order.Application.Orders.Queries.GetOrders
-{
-    internal class GetOrdersQuery
-    {
-    }
-}
+namespace Order.Application.Orders.Queries.GetOrders;
+
+public record GetOrdersQuery(PaginationRequest PaginationRequest) : IQuery<GetOrdersResult>;
+
+public record GetOrdersResult(PaginatedResult<OrderDto> Orders);
