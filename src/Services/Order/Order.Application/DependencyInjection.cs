@@ -1,4 +1,5 @@
 ﻿using BuildingBlocks.Behaviors;
+using DotNetEnv;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 
@@ -10,6 +11,7 @@ public static class DependencyInjection
     {
         services.AddMediatR(cfg =>
         {
+            cfg.LicenseKey = Env.GetString("MEDIATR_LICENSE_KEY");
             cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly());
             cfg.AddOpenBehavior(typeof(ValidationBehavior<,>));
             cfg.AddOpenBehavior(typeof(LoggingBehavior<,>));

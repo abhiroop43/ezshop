@@ -79,7 +79,7 @@ services:
       - "5432:5432"
     restart: unless-stopped
     volumes:
-      - postgres_catalog:/var/lib/postgresql/data
+      - postgres_catalog:/var/lib/postgresql
   
   basketdb:
     container_name: basketdb
@@ -91,7 +91,7 @@ services:
       - "5433:5432"
     restart: unless-stopped
     volumes:
-      - postgres_basket:/var/lib/postgresql/data
+      - postgres_basket:/var/lib/postgresql
   
   distributedcache:
     container_name: distributedcache
