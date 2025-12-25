@@ -61,6 +61,5 @@ public class UpdateOrderCommandHandler(IApplicationDbContext dbContext)
             payment: updatedPayment,
             status: orderDto.Status
         );
-        throw new NotImplementedException();
     }
 }

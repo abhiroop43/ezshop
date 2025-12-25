@@ -17,11 +17,12 @@ public class DeleteOrder : ICarterModule
             var result = await sender.Send(command);
             var response = result.Adapt<DeleteOrderResponse>();
 
-            return response.IsSuccess ? Results.NoContent() : Results.NotFound();
+            return Results.Ok(response);
         })
         .WithName("DeleteOrder")
-        .Produces(StatusCodes.Status204NoContent)
+        .Produces<DeleteOrderResponse>()
         .ProducesProblem(StatusCodes.Status404NotFound)
+        .ProducesProblem(StatusCodes.Status400BadRequest)
         .WithSummary("Delete Order")
         .WithDescription("Delete an order");
     }
