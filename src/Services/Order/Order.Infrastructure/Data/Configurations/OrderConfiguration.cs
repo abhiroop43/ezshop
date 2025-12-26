@@ -1,7 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Order.Domain.Enums;
-using Order.Domain.Models;
-using Order.Domain.ValueObjects;
 
 namespace Order.Infrastructure.Data.Configurations;
 
@@ -20,7 +18,8 @@ public class OrderConfiguration : IEntityTypeConfiguration<Domain.Models.Order>
             .HasForeignKey(o => o.CustomerId)
             .IsRequired();
 
-        builder.HasMany<OrderItem>()
+        // we cannot use generic type here, as the OrderId FK field gets auto-mapped to OrderId1
+        builder.HasMany(o => o.OrderItems)
             .WithOne()
             .HasForeignKey(oi => oi.OrderId);
 

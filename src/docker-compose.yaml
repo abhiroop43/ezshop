@@ -19,6 +19,13 @@
       context: .
       dockerfile: Services/Discount/Discount.Grpc/Dockerfile
     restart: unless-stopped
+
+  order.api:
+    image: ${DOCKER_REGISTRY-}orderapi
+    build:
+      context: .
+      dockerfile: Services/Order/Order.API/Dockerfile
+    restart: unless-stopped
   
   catalogdb:
     image: postgres

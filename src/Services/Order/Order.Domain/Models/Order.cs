@@ -65,16 +65,13 @@ public class Order : Aggregate<OrderId>
 
     public void Add(ProductId productId, int quantity, decimal price)
     {
-        if (quantity <= 0)
-        {
-            throw new DomainException("Quantity must be greater than zero.");
-        }
-        if (price <= 0)
-        {
-            throw new DomainException("Price must be greater than zero.");
-        }
+        ArgumentOutOfRangeException.ThrowIfNegativeOrZero(quantity);
+        ArgumentOutOfRangeException.ThrowIfNegativeOrZero(price);
 
-        var orderItem = new OrderItem(Id, productId, quantity, price) { Id = null! };
+        var orderItem = new OrderItem(Id, productId, quantity, price)
+        {
+            Id = OrderItemId.Of(Guid.NewGuid())
+        };
         _orderItems.Add(orderItem);
     }
 

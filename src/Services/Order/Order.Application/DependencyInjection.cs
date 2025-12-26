@@ -9,6 +9,7 @@ public static class DependencyInjection
 {
     public static IServiceCollection AddApplicationServices(this IServiceCollection services)
     {
+        Env.TraversePath().Load();
         services.AddMediatR(cfg =>
         {
             cfg.LicenseKey = Env.GetString("MEDIATR_LICENSE_KEY");
