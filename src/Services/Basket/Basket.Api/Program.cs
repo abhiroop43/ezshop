@@ -1,3 +1,4 @@
+using BuildingBlocks.Messaging.MassTransit;
 using Discount.Grpc;
 using HealthChecks.UI.Client;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
@@ -22,11 +23,13 @@ builder.Services.AddMediatR(config =>
 
 #region "Data Services"
 
-builder.Services.AddMarten(opts =>
-{
-    opts.Connection(builder.Configuration.GetConnectionString("Database")!);
-    opts.Schema.For<ShoppingCart>().Identity(x => x.UserId);
-}).UseLightweightSessions();
+builder
+    .Services.AddMarten(opts =>
+    {
+        opts.Connection(builder.Configuration.GetConnectionString("Database")!);
+        opts.Schema.For<ShoppingCart>().Identity(x => x.UserId);
+    })
+    .UseLightweightSessions();
 
 builder.Services.AddScoped<IBasketRepository, BasketRepository>();
 builder.Services.Decorate<IBasketRepository, CachedBasketRepository>();
@@ -48,12 +51,19 @@ builder.Services.AddGrpcClient<DiscountProtoService.DiscountProtoServiceClient>(
 
 #endregion
 
+#region "Async Communication Services"
+
+builder.Services.AddMessageBroker(builder.Configuration);
+
+#endregion
+
 
 #region "Cross-cutting Services"
 
 builder.Services.AddExceptionHandler<CustomExceptionHandler>();
 
-builder.Services.AddHealthChecks()
+builder
+    .Services.AddHealthChecks()
     .AddNpgSql(builder.Configuration.GetConnectionString("Database")!)
     .AddRedis(builder.Configuration.GetConnectionString("Redis")!);
 
@@ -64,9 +74,9 @@ var app = builder.Build();
 // configure the HTTP Request pipeline
 app.MapCarter();
 app.UseExceptionHandler(opts => { });
-app.UseHealthChecks("/health", new HealthCheckOptions
-{
-    ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
-});
+app.UseHealthChecks(
+    "/health",
+    new HealthCheckOptions { ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse }
+);
 
 await app.RunAsync();
