@@ -24,6 +24,7 @@ public record BasketCheckoutEvent : IntegrationEvent
     public string CardNumber { get; set; } = null!;
     public string Expiration { get; set; } = null!;
     public string Cvv { get; set; } = null!;
+    public int PaymentMethod { get; } = 0;
 
     #endregion
 }
