@@ -1,16 +1,29 @@
-﻿namespace Order.Application.Orders.EventHandlers.Domain;
+﻿using MassTransit;
+using Microsoft.FeatureManagement;
+using Order.Application.Extensions;
 
-public class OrderCreatedEventHandler(ILogger<OrderCreatedEventHandler> logger)
-    : INotificationHandler<OrderCreatedEvent>
+namespace Order.Application.Orders.EventHandlers.Domain;
+
+public class OrderCreatedEventHandler(
+    IPublishEndpoint publishEndpoint,
+    IFeatureManager featureManager,
+    ILogger<OrderCreatedEventHandler> logger
+) : INotificationHandler<OrderCreatedEvent>
 {
-    public Task Handle(OrderCreatedEvent notification, CancellationToken cancellationToken)
+    public async Task Handle(OrderCreatedEvent domainEvent, CancellationToken cancellationToken)
     {
         logger.LogInformation(
             "Domain Event {DomainEvent} handled for OrderId: {OrderId}",
-            notification.GetType().Name,
-            notification.order.Id
+            domainEvent.GetType().Name,
+            domainEvent.order.Id
         );
 
-        return Task.CompletedTask;
+        if (!await featureManager.IsEnabledAsync("OrderFulfillment"))
+        {
+            return;
+        }
+
+        var orderCreatedIntegrationEvent = domainEvent.order.ToOrderDto();
+        await publishEndpoint.Publish(orderCreatedIntegrationEvent, cancellationToken);
     }
 }
