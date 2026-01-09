@@ -42,9 +42,14 @@
   messagebroker:
     image: rabbitmq:management
 
+  yarpapigateway:
+    image: ${DOCKER_REGISTRY-}yarpapigateway
+    build:
+      context: .
+      dockerfile: ApiGateways/YarpApiGateway/Dockerfile
+    restart: unless-stopped
+
 volumes:
   postgres_catalog:
   postgres_basket:
   discountdb_data:
-
-
